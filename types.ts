@@ -1,7 +1,8 @@
 export enum ViewMode {
   BUILDER = 'BUILDER',
   THEORY = 'THEORY',
-  GALLERY = 'GALLERY'
+  GALLERY = 'GALLERY',
+  FAVORITES = 'FAVORITES'
 }
 
 export enum GeminiModel {
@@ -37,4 +38,10 @@ export interface TheoryContent {
   title: string;
   desc: string;
   points: { label: string; text: string }[];
+}
+
+export interface RecommendedPrompt {
+  id: string;
+  title: string;
+  prompt: string;
 }

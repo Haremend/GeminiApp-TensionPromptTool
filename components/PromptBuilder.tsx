@@ -7,9 +7,11 @@ interface Props {
   onGenerate: (prompt: string, model: GeminiModel) => void;
   isGenerating: boolean;
   lang: Language;
+  prefillPrompt?: string | null;
+  onClearPrefill?: () => void;
 }
 
-const PromptBuilder: React.FC<Props> = ({ onGenerate, isGenerating, lang }) => {
+const PromptBuilder: React.FC<Props> = ({ onGenerate, isGenerating, lang, prefillPrompt, onClearPrefill }) => {
   const [subject, setSubject] = useState<string>("1girl, martial arts uniform");
   const [action, setAction] = useState<string>("punching towards camera");
   const [selectedKeywords, setSelectedKeywords] = useState<Set<string>>(new Set());
@@ -18,6 +20,17 @@ const PromptBuilder: React.FC<Props> = ({ onGenerate, isGenerating, lang }) => {
 
   const { PERSPECTIVE_MODIFIERS, VISUAL_FX, STYLES, PRESETS } = getData(lang);
   const t = UI_TEXT[lang].builder;
+
+  useEffect(() => {
+    if (prefillPrompt) {
+      setSubject("");
+      setSelectedKeywords(new Set());
+      setAction(prefillPrompt);
+      if (onClearPrefill) {
+        onClearPrefill();
+      }
+    }
+  }, [prefillPrompt, onClearPrefill]);
 
   const toggleKeyword = (keyword: string) => {
     const newSet = new Set(selectedKeywords);

@@ -3,8 +3,9 @@ import { ViewMode, GeneratedImage, GeminiModel, Language } from './types';
 import TheoryCard from './components/TheoryCard';
 import PromptBuilder from './components/PromptBuilder';
 import Gallery from './components/Gallery';
+import Favorites from './components/Favorites';
 import { generateImage } from './services/geminiService';
-import { Layout, Paintbrush, Images, Info, AlertTriangle, Languages } from 'lucide-react';
+import { Layout, Paintbrush, Images, Info, AlertTriangle, Languages, Bookmark } from 'lucide-react';
 import { UI_TEXT } from './constants';
 
 const App = () => {
@@ -12,7 +13,8 @@ const App = () => {
   const [images, setImages] = useState<GeneratedImage[]>([]);
   const [isGenerating, setIsGenerating] = useState(false);
   const [error, setError] = useState<string | null>(null);
-  const [lang, setLang] = useState<Language>('zh'); // Default to Chinese as per user locale context implication
+  const [lang, setLang] = useState<Language>('zh'); 
+  const [prefillPrompt, setPrefillPrompt] = useState<string | null>(null);
 
   const t = UI_TEXT[lang];
 
@@ -43,6 +45,11 @@ const App = () => {
 
   const toggleLanguage = () => {
     setLang(prev => prev === 'en' ? 'zh' : 'en');
+  };
+
+  const handleSelectFavorite = (prompt: string) => {
+    setPrefillPrompt(prompt);
+    setView(ViewMode.BUILDER);
   };
 
   return (
@@ -77,6 +84,13 @@ const App = () => {
                 >
                   <Info size={16} />
                   <span className="hidden sm:inline">{t.nav.theory}</span>
+                </button>
+                <button 
+                  onClick={() => setView(ViewMode.FAVORITES)}
+                  className={`flex items-center gap-2 px-4 py-2 rounded-md text-sm font-medium transition-all ${view === ViewMode.FAVORITES ? 'bg-slate-700 text-white shadow' : 'text-gray-400 hover:text-white'}`}
+                >
+                  <Bookmark size={16} />
+                  <span className="hidden sm:inline">{t.nav.favorites}</span>
                 </button>
                 <button 
                   onClick={() => setView(ViewMode.BUILDER)}
@@ -117,8 +131,15 @@ const App = () => {
 
         <div className="h-full">
           {view === ViewMode.THEORY && <TheoryCard lang={lang} />}
+          {view === ViewMode.FAVORITES && <Favorites lang={lang} onSelect={handleSelectFavorite} />}
           {view === ViewMode.BUILDER && (
-             <PromptBuilder onGenerate={handleGenerate} isGenerating={isGenerating} lang={lang} />
+             <PromptBuilder 
+               onGenerate={handleGenerate} 
+               isGenerating={isGenerating} 
+               lang={lang} 
+               prefillPrompt={prefillPrompt}
+               onClearPrefill={() => setPrefillPrompt(null)}
+             />
           )}
           {view === ViewMode.GALLERY && (
              <Gallery images={images} onDelete={handleDelete} lang={lang} />

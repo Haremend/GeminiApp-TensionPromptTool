@@ -37,7 +37,7 @@ export const UI_TEXT = {
   en: {
     title: "Visual Tension Architect",
     subtitle: "Sakuga-style AI Perspective Tool",
-    nav: { theory: "Theory", builder: "Builder", gallery: "Gallery" },
+    nav: { theory: "Theory", builder: "Builder", gallery: "Gallery", favorites: "Favorites" },
     builder: {
       presetsTitle: "Load \"Tension\" Presets",
       subjectLabel: "Subject (Character/Object)",
@@ -53,12 +53,16 @@ export const UI_TEXT = {
     gallery: {
       emptyTitle: "No images generated yet.",
       emptyDesc: "Use the Builder to create your first visual tension masterpiece."
+    },
+    favorites: {
+      title: "Recommended Prompts",
+      apply: "Apply to Builder"
     }
   },
   zh: {
     title: "视觉张力构建器",
     subtitle: "作画风格 AI 透视辅助工具",
-    nav: { theory: "理论规范", builder: "提示词构建", gallery: "生成画廊" },
+    nav: { theory: "理论规范", builder: "提示词构建", gallery: "生成画廊", favorites: "收藏夹" },
     builder: {
       presetsTitle: "加载“张力”预设",
       subjectLabel: "主体 (角色/物体)",
@@ -74,6 +78,10 @@ export const UI_TEXT = {
     gallery: {
       emptyTitle: "暂无生成图片",
       emptyDesc: "请使用“构建”功能制作您的第一张张力大作。"
+    },
+    favorites: {
+      title: "推荐提示词 (收藏夹)",
+      apply: "应用到构建器"
     }
   }
 };
